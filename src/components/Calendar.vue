@@ -13,7 +13,7 @@ import AppleIcon from './icons/AppleIcon.vue';
 <style lang="scss" scoped>
     .logo-space{
         display: flex;
-
+        background: var(--color-primary-green);
         svg{
            margin: auto 0 auto 0; 
         }
