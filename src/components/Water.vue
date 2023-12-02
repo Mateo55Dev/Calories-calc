@@ -36,11 +36,11 @@ function resetWaterAmount() {
         
         div{
             display: inline-flex;
-            path#secondary{
-                background: lightblue;
-                transition: background 1s;
-                fill: black; //nie działa
-            }
+            // path#secondary{
+            //     background: lightblue;
+            //     transition: background 1s;
+            //     fill: black; //nie działa
+            // }
         }
         p{
             font-size: 1.5em;

@@ -159,163 +159,117 @@ const totalCalories = ref(0);
 const totalProteins = ref(0);
 const totalCarbs = ref(0);
 const totalFats = ref(0);
+const weight = ref(100);
 
-function addIngredient(id){
+function addIngredient(id, weight){
+    //this.weight = 100;
     this.meals.push(id);
 
     let ingredient = this.ingredients.find(ingredient => ingredient.id === id);
-    this.totalCalories += Number(ingredient.calories);
-    this.totalProteins += Number(ingredient.proteins);
-    this.totalCarbs += Number(ingredient.carbs);
-    this.totalFats += Number(ingredient.fats);
     
     let caloriesPerGram = Number(ingredient.calories) / ingredient.portion;
-    this.totalCalories += caloriesPerGram * weight;
-    this.totalProteins += caloriesPerGram * weight;
-    this.totalCarbs += caloriesPerGram * weight;
-    this.totalFats += caloriesPerGram * weight;
+    let proteinsPerGram = Number(ingredient.proteins) / ingredient.portion;
+    let carbsPerGram = Number(ingredient.carbs) / ingredient.portion;
+    let fatsPerGram = Number(ingredient.fats) / ingredient.portion;
+
+    this.totalCalories += caloriesPerGram * this.weight;
+    this.totalProteins += caloriesPerGram * this.weight;
+    this.totalCarbs += caloriesPerGram * this.weight;
+    this.totalFats += caloriesPerGram * this.weight;
 
     console.log('Meals:', this.meals);
     console.log('Total Calories:', this.totalCalories);
+    console.log('Weight: ', weight);
 }
 </script>
 
 <template>
-
-    
-        <h2>Monitoring calories in meals</h2>
-<!--
-        <div class="breakfast">
-            <h3>Śniadanie</h3>
-            <div class="nutritions">
-                <p>720 kcal</p>
-                <p>55.9 protein</p>
-                <p>38.4 fat</p>
-                <p>39.9 carbs</p>
-            </div>
-            
-        </div>
-
-        <div class="brunch">
-            <h3>II Śniadanie</h3>
-            <div class="nutritions">
-                <p>456 kcal</p>
-                <p>55.8 protein</p>
-                <p>58.4 fat</p>
-                <p>39.8 carbs</p>
-            </div>
-        </div>
-        <div class="lunch">
-            <h3>Obiad</h3>
-            <div class="nutritions">
-                <p>1168 kcal</p>
-                <p>10.9 protein</p>
-                <p>38.4 fat</p>
-                <p>39.9 carbs</p>
-            </div>
-        </div>
-        <div class="tea">
-            <h3>Podwieczorek</h3>
-            <div class="nutritions">
-                <p>759 kcal</p>
-                <p>50.9 protein</p>
-                <p>38.4 fat</p>
-                <p>39.9 carbs</p>
-            </div>
-        </div>
-        <div class="dinner">
-            <h3>Kolacja</h3>
-            <div class="nutritions">
-                <p>589 kcal</p>
-                <p>43.0 protein</p>
-                <p>15.4 fat</p>
-                <p>79.9 carbs</p>
-            </div>
-        </div>
--->
+    <h2>Monitoring calories in meals</h2>
 
     <div class="ingredients-container">
         <div class="ingredient-card" v-for="ingredient in ingredients">
-            <div class="ingredient-ident">ID:{{ ingredient.id }}</div>
-            <div class="ingredient-name">{{ ingredient.name }}</div>
-            <div class="ingredient-category">({{ ingredient.category }})</div>
-            <div class="ingredient-calories">{{ ingredient.calories }} kcal</div>
-            <div class="ingredient-protein">{{ ingredient.proteins }} kcal</div>
-            <div class="ingredient-carbs">{{ ingredient.carbs }} kcal</div>
-            <div class="ingredient-fat">{{ ingredient.fats }} kcal</div>
-            <input type="number" v-model="weight" placeholder="Quantity in grams" min="1">
-            <button @click="addIngredient(ingredient.id)">Add ingredient</button>
+            <div class="ingredient-title">
+                <div class="ingredient-name">{{ ingredient.name }}</div>
+                <div class="ingredient-category">({{ ingredient.category }})</div>
+            </div>
+            <div class="nutrition-values">
+                <div class="ingredient-calories">{{ ingredient.calories }} kcal</div>
+                <div class="ingredient-protein">{{ ingredient.proteins }} kcal</div>
+                <div class="ingredient-carbs">{{ ingredient.carbs }} kcal</div>
+                <div class="ingredient-fat">{{ ingredient.fats }} kcal</div>
+            </div>
+            
+            <div class="add">
+                <input type="number" v-model="weight" placeholder="Quantity in grams" min="1">
+                <button @click="addIngredient(ingredient.id)">Add ingredient</button>
+            </div>
+            <div class="ingredient-id">ID:{{ ingredient.id }}</div> <!--do usunięcia-->
         </div>
     </div>
     
     <div class="total-container">
-        <div class="total-cals">Total Calories: {{ totalCalories }}</div>
-        <div class="total-proteins">Total Proteins: {{ totalProteins }}</div>
-        <div class="total-carbs">Total Carbs: {{ totalCarbs }}</div>
-        <div class="total-fats">Total Fats: {{ totalFats }}</div> 
+        <div class="total-cals">Total Calories: {{ totalCalories }} kcal</div>
+        <div class="total-proteins">Total Proteins: {{ totalProteins }} g</div>
+        <div class="total-carbs">Total Carbs: {{ totalCarbs }} g</div>
+        <div class="total-fats">Total Fats: {{ totalFats }} g</div> 
     </div>
-
-
-
-
 </template>
 
 <style lang="scss" scoped>
     .ingredients-container{
         padding: 10px;
         display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
         .ingredient-card{
             border: 2px solid var(--color-light-gray);
             padding: 10px 5px 10px 5px;
+            .ingredient-id{ // do usunięcia
+                font-size: 10px; 
+            }
+            .ingredient-title{
+                display: flex;
+                gap: 30px;
+                margin: 0px auto 0px auto;
+                font-size: 1.5em;
+                .ingredient-category{
+                    font-size: 14px;
+                    padding: 5px;
+                }
+            }
+            .nutrition-values{
+                display: flex;
+                gap: 20px;
+                margin-bottom: 5px;
+            }
+            .add{
+                display: flex;
+                justify-content: left;
+            }
+        }
+        input[type=number], button {
+            padding: 5px;
+            font-size: 14px;
+        }
+        input[type=number] {
+            border: 1px solid var(--color-primary-green);
+            margin-right: 5px;
+        }
+        button {
+            background-color: var(--color-primary-green);
+            border: none;
+            color: white;
+            cursor: pointer;
+            color: var(--color-background-gray);
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #4b407a;
         }
     }
-
     .total-container{
         padding: 10px;
         display: flex;
         gap: 20px;
     }
-    
-    
-    
-    // .meals-space{
-    //     border: 1px dashed black;
-    // }
-    // .breakfast{
-    //     line-height: 0.1em;
-    //         .nutritions{
-    //             display: flex;
-    //             gap: 25px;
-    //         }
-    // }
-    // .brunch{
-    //     line-height: 0.1em;
-    //         .nutritions{
-    //             display: flex;
-    //             gap: 25px;
-    //         }
-    // }
-    // .lunch{
-    //     line-height: 0.1em;
-    //         .nutritions{
-    //             display: flex;
-    //             gap: 25px;
-    //         }
-    // }
-    // .tea{
-    //     line-height: 0.1em;
-    //         .nutritions{
-    //             display: flex;
-    //             gap: 25px;
-    //         }
-    // }
-    // .dinner{
-    //     line-height: 0.1em;
-    //         .nutritions{
-    //             display: flex;
-    //             gap: 25px;
-    //         }
-    // }
 </style>
