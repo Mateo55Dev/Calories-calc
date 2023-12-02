@@ -9,9 +9,3 @@
         </g>
     </svg>
 </template>
-
-<style lang="scss" scoped>
-path#secondary{
-    fill: white;
-}
-</style>

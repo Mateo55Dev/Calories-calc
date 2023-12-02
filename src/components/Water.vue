@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import GlassFilledIcon from '../components/icons/GlassFilledIcon.vue';
 
 const glassCapacity = 250;
-var glassNum = 8;
+var glassNum = 5;
 var waterAmount = ref(0);
 
 function updateWaterAmount(numer_kubka) {
@@ -16,7 +16,7 @@ function updateWaterAmount(numer_kubka) {
 
 function resetWaterAmount() {
     this.waterAmount = 0;
-    this.glassNum = 8;
+    this.glassNum = 5;
 }
 </script>
 
@@ -25,8 +25,8 @@ function resetWaterAmount() {
     <div v-for="numer_kubka in glassNum" :key="numer_kubka" @click="updateWaterAmount(numer_kubka)">
       <GlassFilledIcon/>
     </div>
-    <p>Aktualna ilość: {{ waterAmount + " ml"}}</p>
-    <button @click="resetWaterAmount()">Wyczyść wodę</button>
+    <p>Actual amount: {{ waterAmount + " ml"}}</p>
+    <button @click="resetWaterAmount()">Reset water</button>
   </div>
 </template>
 
